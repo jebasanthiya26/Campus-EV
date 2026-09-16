@@ -1,0 +1,521 @@
+/* HOME */
+
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eef0f2;
+}
+
+.home-content {
+  width: 700px;
+  text-align: center;
+  margin-top: -70px;
+}
+
+.home-content h1 {
+  font-size: 40px;
+  color: #267a45;
+  margin-bottom: 25px;
+}
+
+.home-content p {
+  max-width: 700px;
+  margin: 0 auto 35px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #444;
+}
+
+.student-login-btn {
+  width: 175px;
+  padding: 14px;
+  border: none;
+  border-radius: 9px;
+  background: #1f9149;
+  color: white;
+  font-size: 17px;
+}
+
+.student-login-btn:hover {
+  background: #187a3c;
+}
+
+/* LOGIN */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eef0f2;
+}
+
+.login-card {
+  width: 435px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h1 {
+  text-align: center;
+  margin: 0;
+  color: #267a45;
+  font-size: 28px;
+}
+
+.login-subtitle {
+  text-align: center;
+  color: #555;
+  margin: 10px 0 25px;
+}
+
+.login-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.login-tab {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  background: white;
+  font-size: 15px;
+}
+
+.login-tab.active {
+  background: #1f9149;
+  color: white;
+  border-color: #1f9149;
+}
+
+.login-card label {
+  display: block;
+  font-weight: bold;
+  margin: 14px 0 8px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cfd4da;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: #1f9149;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+/* STUDENT LAYOUT */
+
+.student-layout {
+  min-height: 100vh;
+  background: #eef0f2;
+}
+
+.student-header {
+  height: 62px;
+  background: #1f9149;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 35px;
+  font-size: 18px;
+}
+
+.student-header-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.student-body {
+  display: flex;
+}
+
+.student-sidebar {
+  width: 220px;
+  min-height: calc(100vh - 62px);
+  background: white;
+  border-right: 1px solid #ddd;
+  padding-top: 18px;
+}
+
+.sidebar-title {
+  color: #267a45;
+  font-size: 19px;
+  font-weight: bold;
+  padding: 0 20px 15px;
+}
+
+.sidebar-link {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  padding: 15px 22px;
+  font-size: 16px;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background: #dff3e7;
+  color: #267a45;
+}
+
+.student-content {
+  flex: 1;
+  padding: 32px 36px;
+}
+
+/* DASHBOARD */
+
+.page-heading {
+  color: #267a45;
+  margin: 0;
+  font-size: 29px;
+}
+
+.welcome-text {
+  font-size: 17px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.dashboard-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.dashboard-card {
+  width: 235px;
+  min-height: 115px;
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-card-title {
+  font-size: 19px;
+  font-weight: bold;
+  color: #555;
+}
+
+.dashboard-card-value {
+  margin-top: 18px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #267a45;
+}
+
+/* COMMON PAGE CARD */
+
+.page-card {
+  width: 720px;
+  max-width: 100%;
+  margin-top: 25px;
+  background: white;
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.page-card h2 {
+  color: #267a45;
+  margin-top: 0;
+}
+
+/* TRACKING */
+
+.map-box {
+  height: 350px;
+  border-radius: 10px;
+  background: #e1e5e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.vehicle-details {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.vehicle-detail {
+  background: #f5f7f8;
+  padding: 15px;
+  border-radius: 8px;
+  min-width: 170px;
+}
+
+.vehicle-detail strong {
+  display: block;
+  color: #267a45;
+  margin-top: 5px;
+}
+
+/* ROUTES */
+
+.route-box {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.route-name {
+  color: #267a45;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.stop-list {
+  padding-left: 20px;
+}
+
+.stop-list li {
+  margin-bottom: 10px;
+}
+
+/* SEATS */
+
+.seat-summary {
+  font-size: 24px;
+  font-weight: bold;
+  color: #267a45;
+  margin-bottom: 20px;
+}
+
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  gap: 15px;
+}
+
+.seat {
+  height: 60px;
+  border-radius: 8px;
+  border: none;
+  background: #dff3e7;
+  color: #267a45;
+  font-weight: bold;
+}
+
+.seat.booked {
+  background: #f8d7da;
+  color: #b02a37;
+}
+
+/* PROFILE */
+
+.profile-row {
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.profile-value {
+  margin-top: 6px;
+  color: #267a45;
+}
+
+/* DRIVER SELECT */
+
+.driver-select-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding-top: 220px;
+  background: #eef0f2;
+}
+
+.driver-select-container {
+  width: 700px;
+}
+
+.driver-select-container h1 {
+  color: #267a45;
+  margin-bottom: 5px;
+}
+
+.driver-subtitle {
+  margin-top: 0;
+  color: #555;
+}
+
+.vehicle-selection-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  margin-top: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.available {
+  color: #267a45;
+}
+
+.unavailable {
+  color: #c0392b;
+}
+
+.select-vehicle-btn {
+  background: #1f9149;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+}
+
+.select-vehicle-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* DRIVER LAYOUT */
+
+.driver-layout {
+  min-height: 100vh;
+  display: flex;
+  background: #eef0f2;
+}
+
+.driver-sidebar {
+  width: 235px;
+  min-height: 100vh;
+  background: white;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.driver-brand {
+  padding: 25px 20px;
+  color: #267a45;
+}
+
+.driver-brand h2 {
+  margin: 0;
+}
+
+.driver-brand p {
+  margin: 8px 0 0;
+  color: #666;
+}
+
+.driver-nav {
+  flex: 1;
+}
+
+.driver-content {
+  flex: 1;
+  padding: 35px;
+}
+
+.logout-btn {
+  margin: 15px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #f8dddd;
+  color: #b0392e;
+}
+
+/* DRIVER ROUTE */
+
+.route-select {
+  width: 100%;
+  padding: 13px;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.driver-route-list {
+  background: #f5f7f8;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.driver-route-list p {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  margin: 0;
+}
+
+/* DRIVER GPS */
+
+.gps-status {
+  font-size: 22px;
+  color: #267a45;
+  font-weight: bold;
+}
+
+/* START VEHICLE */
+
+.vehicle-status-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.start-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #1f9149;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.change-vehicle-btn {
+  margin-top: 20px;
+  padding: 12px 18px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 8px;
+}
+
+@media (max-width: 800px) {
+  .student-sidebar {
+    width: 180px;
+  }
+
+  .dashboard-card {
+    width: 100%;
+  }
+
+  .driver-sidebar {
+    width: 180px;
+  }
+}
