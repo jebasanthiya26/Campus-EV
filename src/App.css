@@ -519,3 +519,785 @@
     width: 180px;
   }
 }
+/* =========================================
+   DRIVER DASHBOARD
+========================================= */
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.dashboard-label,
+.section-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #168a4b;
+}
+
+.dashboard-header .page-heading {
+  margin: 0;
+  font-size: 30px;
+  color: #173b2b;
+}
+
+.dashboard-header .welcome-text {
+  margin-top: 7px;
+  color: #64748b;
+}
+
+.driver-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #168a4b;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(22, 138, 75, 0.18);
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.driver-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  min-height: 105px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #e9f7ef;
+  color: #168a4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.stat-card p {
+  margin: 0 0 6px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.stat-card h3 {
+  margin: 0;
+  color: #172033;
+  font-size: 19px;
+}
+
+.stat-card small {
+  display: block;
+  margin-top: 4px;
+  color: #64748b;
+}
+
+.status-running {
+  color: #168a4b !important;
+}
+
+.status-off {
+  color: #dc4c4c !important;
+}
+
+
+/* =========================================
+   CURRENT ROUTE
+========================================= */
+
+.current-route-card {
+  background: linear-gradient(
+    135deg,
+    #168a4b,
+    #11683a
+  );
+  color: white;
+  padding: 25px 28px;
+  border-radius: 16px;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 24px rgba(22, 138, 75, 0.16);
+}
+
+.current-route-card .section-label {
+  color: #d5f5e2;
+}
+
+.current-route-card h2 {
+  margin: 4px 0 5px;
+  font-size: 25px;
+}
+
+.current-route-card p:last-child {
+  margin: 0;
+  color: #d5f5e2;
+  font-size: 14px;
+}
+
+
+/* =========================================
+   QUICK ACCESS
+========================================= */
+
+.quick-access {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 25px 28px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+.quick-access h2 {
+  margin: 4px 0 20px;
+  color: #173b2b;
+  font-size: 21px;
+}
+
+.quick-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.quick-buttons a {
+  text-decoration: none;
+  color: inherit;
+  background: #f8faf9;
+  border: 1px solid #e5ebe7;
+  border-radius: 12px;
+  padding: 17px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  transition: 0.2s ease;
+}
+
+.quick-buttons a:hover {
+  transform: translateY(-2px);
+  border-color: #168a4b;
+  box-shadow: 0 7px 18px rgba(15, 23, 42, 0.08);
+}
+
+.quick-buttons a > span:first-child {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #e9f7ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.quick-buttons a span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quick-buttons strong {
+  font-size: 14px;
+  color: #172033;
+}
+
+.quick-buttons small {
+  font-size: 12px;
+  color: #64748b;
+}
+
+
+/* =========================================
+   DRIVER SIDEBAR
+========================================= */
+
+.driver-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #168a4b;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.driver-brand h2 {
+  margin: 0;
+  color: #168a4b;
+}
+
+.driver-brand p {
+  margin: 2px 0 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.driver-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  color: #475569;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.sidebar-link span {
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-link:hover {
+  background: #f0f8f3;
+  color: #168a4b;
+}
+
+.sidebar-link.active {
+  background: #dff4e8;
+  color: #168a4b;
+  font-weight: 600;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+  .driver-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard-header .page-heading {
+    font-size: 24px;
+  }
+
+  .driver-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .driver-avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .current-route-card,
+  .quick-access {
+    padding: 20px;
+  }
+}
+/* =========================================
+   DRIVER DASHBOARD - RESPONSIVE FIX
+========================================= */
+
+.driver-content {
+  min-width: 0;
+}
+
+/* Dashboard header */
+
+.dashboard-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Stats */
+
+.driver-stats {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.stat-card h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* Current route */
+
+.current-route-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* Quick access */
+
+.quick-access {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.quick-buttons {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.quick-buttons a {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.quick-buttons a span:last-child {
+  min-width: 0;
+}
+
+.quick-buttons strong {
+  display: block;
+  white-space: nowrap;
+}
+
+.quick-buttons small {
+  display: block;
+  line-height: 1.4;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+  .driver-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .quick-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .dashboard-header {
+    align-items: flex-start;
+  }
+
+  .dashboard-header .page-heading {
+    font-size: 24px;
+  }
+
+  .driver-avatar {
+    flex-shrink: 0;
+  }
+
+  .driver-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .quick-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-buttons a {
+    min-height: 65px;
+  }
+
+  .quick-buttons strong {
+    white-space: normal;
+  }
+
+  .current-route-card {
+    padding: 20px;
+  }
+
+  .quick-access {
+    padding: 20px;
+  }
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 450px) {
+
+  .dashboard-header {
+    flex-direction: column;
+  }
+
+  .driver-avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .dashboard-header .page-heading {
+    font-size: 21px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+}
+/* =========================================
+   DRIVER GPS PAGE
+========================================= */
+
+.gps-page {
+  width: 100%;
+}
+
+.gps-status-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 22px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+.gps-status-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.gps-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.gps-icon.active {
+  background: #dcf8e7;
+  color: #168a4b;
+}
+
+.gps-status-card h2 {
+  margin: 0 0 5px;
+  color: #173b2b;
+  font-size: 18px;
+}
+
+.gps-status-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.gps-live-badge,
+.gps-wait-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.gps-live-badge {
+  background: #dcf8e7;
+  color: #168a4b;
+}
+
+.gps-wait-badge {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.gps-live-badge span,
+.gps-wait-badge span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+
+/* Information cards */
+
+.gps-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.gps-info-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 19px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+  min-width: 0;
+}
+
+.gps-info-card span {
+  display: block;
+  margin-bottom: 8px;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.gps-info-card strong {
+  display: block;
+  color: #172033;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* Location card */
+
+.gps-location-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+.gps-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.gps-card-header h2 {
+  margin: 0;
+  color: #173b2b;
+  font-size: 21px;
+}
+
+.location-pulse {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e9f7ef;
+  color: #168a4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.location-display {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px;
+  background: #f7faf8;
+  border: 1px solid #e6eee9;
+  border-radius: 12px;
+}
+
+.location-marker {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  background: #168a4b;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.location-display strong {
+  display: block;
+  color: #172033;
+  margin-bottom: 5px;
+}
+
+.location-display p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.coordinates-box {
+  margin-top: 14px;
+  padding: 15px 18px;
+  border-radius: 10px;
+  background: #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.coordinates-box span {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.coordinates-box strong {
+  color: #173b2b;
+  font-size: 13px;
+}
+
+
+/* Error */
+
+.gps-error {
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: #fff1f1;
+  border: 1px solid #ffd5d5;
+  border-radius: 12px;
+}
+
+.gps-error strong {
+  color: #c53030;
+}
+
+.gps-error p {
+  margin: 5px 0 0;
+  color: #7f1d1d;
+  font-size: 13px;
+}
+
+
+/* =========================================
+   GPS RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .gps-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+
+  .gps-status-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .gps-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gps-location-card {
+    padding: 20px;
+  }
+
+  .coordinates-box {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .gps-card-header h2 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 450px) {
+
+  .gps-status-left {
+    align-items: flex-start;
+  }
+
+  .gps-status-left h2 {
+    font-size: 16px;
+  }
+
+  .location-display {
+    align-items: flex-start;
+  }
+}

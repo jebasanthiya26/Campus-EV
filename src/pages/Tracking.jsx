@@ -86,6 +86,12 @@ function Tracking() {
 
     getVehicles();
 
+const interval = setInterval(() => {
+  getVehicles();
+}, 3000);
+
+return () => clearInterval(interval);
+
   }, []);
 
 

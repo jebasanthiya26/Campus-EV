@@ -65,7 +65,7 @@ function DriverVehicleSelect() {
             className="select-vehicle-btn"
             onClick={() =>
               selectVehicle(
-                "6aaaa559c4517d6bb53974c1",
+                "6aaaa569c4517d6bb53974c1",
                 "Campus EV-02"
               )
             }

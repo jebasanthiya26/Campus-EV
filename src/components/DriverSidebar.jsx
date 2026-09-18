@@ -6,46 +6,62 @@ function DriverSidebar() {
   return (
     <aside className="driver-sidebar">
       <div className="driver-brand">
-        <h2>🚌 Campus EV</h2>
-        <p>Driver Panel</p>
+        <div className="brand-icon">EV</div>
+        <div>
+          <h2>CampusEV</h2>
+          <p>Driver Panel</p>
+        </div>
       </div>
 
-      <div className="driver-nav">
+      <nav className="driver-nav">
         <NavLink
           to="/driver-dashboard"
           className="sidebar-link"
         >
-          🗺️ Route
+          <span>▣</span>
+          Route
         </NavLink>
 
         <NavLink
           to="/driver-gps"
           className="sidebar-link"
         >
-          📍 GPS
+          <span>⌖</span>
+          GPS Tracking
         </NavLink>
 
         <NavLink
           to="/driver-seats"
           className="sidebar-link"
         >
-          💺 Seats
+          <span>♙</span>
+          Seat Management
         </NavLink>
 
         <NavLink
           to="/driver-vehicle"
           className="sidebar-link"
         >
-          🚌 Start Vehicle
+          <span>⚡</span>
+          Vehicle Status
         </NavLink>
-      </div>
+      </nav>
 
-      <button
-        className="logout-btn"
-        onClick={() => navigate("/login")}
-      >
-        🚪 Logout
-      </button>
+      <div className="sidebar-bottom">
+        <button
+          className="logout-btn"
+          onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("userName");
+            localStorage.removeItem("userRole");
+            navigate("/login");
+          }}
+        >
+          <span>↪</span>
+          Logout
+        </button>
+      </div>
     </aside>
   );
 }

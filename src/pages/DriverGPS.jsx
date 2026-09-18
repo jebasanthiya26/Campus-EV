@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import DriverLayout from "../components/DriverLayout";
 import socket from "../socket";
 
 const API_URL =
@@ -8,11 +9,12 @@ const API_URL =
 function DriverGPS() {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState("");
-  const [gpsStatus, setGpsStatus] = useState("Waiting for GPS...");
+  const [gpsStatus, setGpsStatus] = useState(
+    "Waiting for GPS..."
+  );
   const [vehicleId, setVehicleId] = useState("");
 
   useEffect(() => {
-    // Get selected vehicle from localStorage
     const savedVehicleId =
       localStorage.getItem("selectedVehicleId");
 
@@ -65,13 +67,11 @@ function DriverGPS() {
 
           setGpsStatus("GPS Active");
 
-          // Send live location through Socket.IO
           socket.emit(
             "gpsUpdate",
             gpsData
           );
 
-          // Save latest location in MongoDB
           try {
             await axios.put(
               `${API_URL}/api/vehicles/${vehicleId}/gps`,
@@ -126,77 +126,208 @@ function DriverGPS() {
     };
   }, [vehicleId]);
 
+  const vehicleNumber =
+    localStorage.getItem(
+      "selectedVehicleNumber"
+    ) || "Campus EV";
+
+  const driverName =
+    localStorage.getItem("userName") ||
+    "Driver";
+
+  const isActive =
+    gpsStatus === "GPS Active";
+
   return (
-    <div className="page">
-      <h1>📍 Driver GPS</h1>
+    <DriverLayout>
+      <div className="gps-page">
 
-      <p>
-        Vehicle ID:{" "}
-        <strong>
-          {vehicleId || "Not selected"}
-        </strong>
-      </p>
+        {/* Header */}
 
-      <div className="card">
-        <h2>📡 GPS Status</h2>
-
-        <p>
-          <strong>{gpsStatus}</strong>
-        </p>
-
-        {location && (
-          <>
-            <p>
-              Latitude:{" "}
-              <strong>
-                {location.latitude}
-              </strong>
+        <div className="dashboard-header">
+          <div>
+            <p className="dashboard-label">
+              GPS TRACKING
             </p>
 
-            <p>
-              Longitude:{" "}
-              <strong>
-                {location.longitude}
-              </strong>
-            </p>
+            <h1 className="page-heading">
+              Driver GPS
+            </h1>
 
-            <p>
-              Accuracy:{" "}
-              <strong>
-                {Math.round(
-                  location.accuracy
-                )}{" "}
-                metres
-              </strong>
+            <p className="welcome-text">
+              Share your live location with the
+              CampusEV system.
             </p>
-          </>
-        )}
+          </div>
+
+          <div className="driver-avatar">
+            {driverName
+              .charAt(0)
+              .toUpperCase()}
+          </div>
+        </div>
+
+
+        {/* GPS Status */}
+
+        <div className="gps-status-card">
+
+          <div className="gps-status-left">
+
+            <div
+              className={
+                isActive
+                  ? "gps-icon active"
+                  : "gps-icon"
+              }
+            >
+              GPS
+            </div>
+
+            <div>
+              <h2>
+                {isActive
+                  ? "GPS Active"
+                  : gpsStatus}
+              </h2>
+
+              <p>
+                {isActive
+                  ? "Your phone location is being shared with CampusEV."
+                  : "Waiting for your phone location."}
+              </p>
+            </div>
+
+          </div>
+
+          <div
+            className={
+              isActive
+                ? "gps-live-badge"
+                : "gps-wait-badge"
+            }
+          >
+            <span></span>
+
+            {isActive
+              ? "LIVE"
+              : "WAITING"}
+          </div>
+
+        </div>
+
+
+        {/* GPS Information */}
+
+        <div className="gps-info-grid">
+
+          <div className="gps-info-card">
+            <span>VEHICLE</span>
+            <strong>{vehicleNumber}</strong>
+          </div>
+
+          <div className="gps-info-card">
+            <span>LATITUDE</span>
+            <strong>
+              {location
+                ? location.latitude.toFixed(6)
+                : "--"}
+            </strong>
+          </div>
+
+          <div className="gps-info-card">
+            <span>LONGITUDE</span>
+            <strong>
+              {location
+                ? location.longitude.toFixed(6)
+                : "--"}
+            </strong>
+          </div>
+
+          <div className="gps-info-card">
+            <span>ACCURACY</span>
+            <strong>
+              {location
+                ? `${Math.round(
+                    location.accuracy
+                  )} m`
+                : "--"}
+            </strong>
+          </div>
+
+        </div>
+
+
+        {/* Live Location */}
+
+        <div className="gps-location-card">
+
+          <div className="gps-card-header">
+            <div>
+              <p className="section-label">
+                LIVE LOCATION
+              </p>
+
+              <h2>
+                Location Sharing
+              </h2>
+            </div>
+
+            <div className="location-pulse">
+              ●
+            </div>
+          </div>
+
+          <div className="location-display">
+
+            <div className="location-marker">
+              ⌖
+            </div>
+
+            <div>
+              <strong>
+                {isActive
+                  ? "Your location is being shared"
+                  : "Location not available"}
+              </strong>
+
+              <p>
+                Students can view the live
+                location of this vehicle on
+                the tracking page.
+              </p>
+            </div>
+
+          </div>
+
+          {location && (
+            <div className="coordinates-box">
+              <span>
+                Current Coordinates
+              </span>
+
+              <strong>
+                {location.latitude.toFixed(6)}
+                {" , "}
+                {location.longitude.toFixed(6)}
+              </strong>
+            </div>
+          )}
+
+        </div>
+
+
+        {/* Error */}
 
         {error && (
-          <p
-            style={{
-              color: "red",
-            }}
-          >
-            ⚠️ {error}
-          </p>
+          <div className="gps-error">
+            <strong>GPS Error</strong>
+            <p>{error}</p>
+          </div>
         )}
+
       </div>
-
-      <div className="card">
-        <h2>🚍 Live Tracking</h2>
-
-        <p>
-          Your phone GPS location is being
-          shared with the Campus EV system.
-        </p>
-
-        <p>
-          Students will be able to see this
-          vehicle's live location.
-        </p>
-      </div>
-    </div>
+    </DriverLayout>
   );
 }
 

@@ -64,10 +64,17 @@ export const loginUser = async (req, res) => {
       role,
     } = req.body;
 
-    const user =
-      await User.findOne({
+   const user =
+  role === "driver"
+    ? await User.findOne({
         userId,
-        role,
+        role: "driver",
+      })
+    : await User.findOne({
+        userId,
+        role: {
+          $in: ["student", "faculty"],
+        },
       });
 
     if (!user) {
