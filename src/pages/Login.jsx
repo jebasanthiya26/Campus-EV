@@ -26,32 +26,57 @@ function Login() {
         {
           userId: id,
           password,
-          role:
-  userType === "student"
-    ? undefined
-    : "driver",
+          role: userType,
         }
       );
 
       const { token, user } = response.data;
 
+      // Save authentication information
       localStorage.setItem("token", token);
-      localStorage.setItem("userId", user.userId);
-      localStorage.setItem("userName", user.name);
-      localStorage.setItem("userRole", user.role);
+      localStorage.setItem(
+        "userId",
+        user.userId
+      );
+      localStorage.setItem(
+        "userName",
+        user.name
+      );
+      localStorage.setItem(
+        "userRole",
+        user.role
+      );
 
+      // Clear old vehicle selection
+      localStorage.removeItem(
+        "selectedVehicleId"
+      );
+      localStorage.removeItem(
+        "selectedVehicleNumber"
+      );
+
+      // Role-based navigation
       if (user.role === "driver") {
         navigate("/driver-select");
+      } else if (
+        user.role === "management"
+      ) {
+        navigate("/management");
       } else {
         navigate("/dashboard");
       }
+
     } catch (err) {
-      console.error("Login failed:", err);
+      console.error(
+        "Login failed:",
+        err
+      );
 
       setError(
         err.response?.data?.message ||
           "Login failed. Please check your credentials."
       );
+
     } finally {
       setLoading(false);
     }
@@ -60,13 +85,16 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-card">
+
         <h1>Campus EV Login</h1>
 
         <p className="login-subtitle">
-          Login to access the Campus EV Tracking System
+          Login to access the Campus EV
+          Tracking System
         </p>
 
         <div className="login-tabs">
+
           <button
             type="button"
             className={
@@ -96,23 +124,46 @@ function Login() {
           >
             Driver
           </button>
+
+          <button
+            type="button"
+            className={
+              userType === "management"
+                ? "login-tab active"
+                : "login-tab"
+            }
+            onClick={() => {
+              setUserType("management");
+              setError("");
+            }}
+          >
+            Management
+          </button>
+
         </div>
 
         <form onSubmit={handleLogin}>
+
           <label>
             {userType === "student"
               ? "Student / Faculty ID"
-              : "Driver ID"}
+              : userType === "driver"
+              ? "Driver ID"
+              : "Management ID"}
           </label>
 
           <input
             type="text"
             value={id}
-            onChange={(e) => setId(e.target.value)}
+            onChange={(e) =>
+              setId(e.target.value)
+            }
             placeholder={
               userType === "student"
                 ? "Enter your ID"
-                : "Enter driver ID"
+                : userType === "driver"
+                ? "Enter driver ID"
+                : "Enter management ID"
             }
             required
           />
@@ -140,9 +191,13 @@ function Login() {
             className="login-button"
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading
+              ? "Logging in..."
+              : "Login"}
           </button>
+
         </form>
+
       </div>
     </div>
   );

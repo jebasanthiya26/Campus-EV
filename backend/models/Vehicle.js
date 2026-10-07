@@ -6,6 +6,7 @@ const vehicleSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
 
     driver: {
@@ -41,6 +42,11 @@ const vehicleSchema = new mongoose.Schema(
         default: 0,
       },
 
+      accuracy: {
+        type: Number,
+        default: null,
+      },
+
       locationName: {
         type: String,
         default: "Campus",
@@ -49,7 +55,13 @@ const vehicleSchema = new mongoose.Schema(
 
     currentRoute: {
       type: String,
-      default: "Blue Line",
+      enum: ["Green Line", "Blue Line"],
+      default: null,
+    },
+
+    lastLocationUpdate: {
+      type: Date,
+      default: null,
     },
   },
   {
@@ -57,9 +69,6 @@ const vehicleSchema = new mongoose.Schema(
   }
 );
 
-const Vehicle = mongoose.model(
-  "Vehicle",
-  vehicleSchema
-);
+const Vehicle = mongoose.model("Vehicle", vehicleSchema);
 
 export default Vehicle;

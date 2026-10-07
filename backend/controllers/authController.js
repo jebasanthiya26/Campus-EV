@@ -58,24 +58,25 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const {
-      userId,
-      password,
-      role,
-    } = req.body;
+    const { userId, password, role } = req.body;
 
-   const user =
-  role === "driver"
-    ? await User.findOne({
-        userId,
-        role: "driver",
-      })
-    : await User.findOne({
+    let user;
+
+    // Student / Faculty login
+    if (role === "student") {
+      user = await User.findOne({
         userId,
         role: {
           $in: ["student", "faculty"],
         },
       });
+    } else {
+      // Driver / Management login
+      user = await User.findOne({
+        userId,
+        role,
+      });
+    }
 
     if (!user) {
       return res.status(401).json({
@@ -107,10 +108,15 @@ export const loginUser = async (req, res) => {
         role: user.role,
       },
     });
+
   } catch (error) {
+    console.error(
+      "Login error:",
+      error.message
+    );
+
     res.status(500).json({
       message: "Login failed",
-      error: error.message,
     });
   }
 };

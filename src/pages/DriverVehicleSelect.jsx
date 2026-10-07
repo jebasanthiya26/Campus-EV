@@ -1,98 +1,200 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5000";
 
 function DriverVehicleSelect() {
   const navigate = useNavigate();
 
-  const selectVehicle = (vehicleId, vehicleNumber) => {
-    localStorage.setItem(
-      "selectedVehicleId",
-      vehicleId
-    );
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selecting, setSelecting] = useState(null);
+  const [error, setError] = useState("");
 
-    localStorage.setItem(
-      "selectedVehicleNumber",
-      vehicleNumber
-    );
+  const token = localStorage.getItem("token");
+  const currentUserId = localStorage.getItem("userId");
 
-    navigate("/driver-dashboard");
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/api/vehicles`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setVehicles(response.data);
+      } catch (err) {
+        console.error(
+          "Failed to load vehicles:",
+          err
+        );
+
+        setError(
+          err.response?.data?.message ||
+            "Failed to load vehicles"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
+  }, [token]);
+
+  const selectVehicle = async (
+    vehicleId,
+    vehicleNumber
+  ) => {
+    try {
+      setSelecting(vehicleId);
+      setError("");
+
+      await axios.put(
+        `${API_URL}/api/vehicles/${vehicleId}/select`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      localStorage.setItem(
+        "selectedVehicleId",
+        vehicleId
+      );
+
+      localStorage.setItem(
+        "selectedVehicleNumber",
+        vehicleNumber
+      );
+
+      navigate("/driver-dashboard");
+
+    } catch (err) {
+      console.error(
+        "Vehicle selection failed:",
+        err
+      );
+
+      setError(
+        err.response?.data?.message ||
+          "Unable to select vehicle"
+      );
+    } finally {
+      setSelecting(null);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="driver-select-page">
+        <div className="driver-select-container">
+          <h1>Campus EV Driver</h1>
+          <p>Loading vehicles...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="driver-select-page">
       <div className="driver-select-container">
 
-        <h1>🚌 Campus EV Driver</h1>
+        <h1>Campus EV Driver</h1>
 
         <p className="driver-subtitle">
           Select the vehicle assigned to you
         </p>
 
-        {/* CAMPUS EV-01 */}
-        <div className="vehicle-selection-card">
-          <div>
-            <h3>Campus EV-01</h3>
+        {error && (
+          <p className="login-error">
+            {error}
+          </p>
+        )}
 
-            <span className="available">
-              🟢 Available
-            </span>
-          </div>
+        {vehicles.map((vehicle) => {
+          const isRunning =
+            vehicle.status === "RUNNING";
 
-          <button
-            className="select-vehicle-btn"
-            onClick={() =>
-              selectVehicle(
-                "6aaaa559c4517d6bb53974bf",
-                "Campus EV-01"
-              )
-            }
-          >
-            Select Vehicle
-          </button>
-        </div>
+          const isOn =
+            vehicle.status === "ON";
 
+          const isActive =
+            isRunning || isOn;
 
-        {/* CAMPUS EV-02 */}
-        <div className="vehicle-selection-card">
-          <div>
-            <h3>Campus EV-02</h3>
+          const assignedDriverId =
+            vehicle.driver?.userId;
 
-            <span className="available">
-              🟢 Available
-            </span>
-          </div>
+          const isMyVehicle =
+            assignedDriverId &&
+            currentUserId &&
+            String(assignedDriverId) ===
+              String(currentUserId);
 
-          <button
-            className="select-vehicle-btn"
-            onClick={() =>
-              selectVehicle(
-                "6aaaa569c4517d6bb53974c1",
-                "Campus EV-02"
-              )
-            }
-          >
-            Select Vehicle
-          </button>
-        </div>
+          const unavailableToMe =
+            isActive && !isMyVehicle;
 
+          return (
+            <div
+              className="vehicle-selection-card"
+              key={vehicle._id}
+            >
+              <div>
+                <h3>
+                  {vehicle.vehicleNumber}
+                </h3>
 
-        {/* CAMPUS EV-03 */}
-        <div className="vehicle-selection-card">
-          <div>
-            <h3>Campus EV-03</h3>
+                <span
+                  className={
+                    unavailableToMe
+                      ? "unavailable"
+                      : "available"
+                  }
+                >
+                  {unavailableToMe
+                    ? "In Use"
+                    : isRunning && isMyVehicle
+                    ? "Your Trip is Running"
+                    : isOn && isMyVehicle
+                    ? "Your Vehicle"
+                    : "Available"}
+                </span>
+              </div>
 
-            <span className="unavailable">
-              🔴 In Use
-            </span>
-          </div>
-
-          <button
-            className="select-vehicle-btn"
-            disabled
-          >
-            Unavailable
-          </button>
-        </div>
-
+              <button
+                className="select-vehicle-btn"
+                disabled={
+                  unavailableToMe ||
+                  selecting === vehicle._id
+                }
+                onClick={() =>
+                  selectVehicle(
+                    vehicle._id,
+                    vehicle.vehicleNumber
+                  )
+                }
+              >
+                {selecting === vehicle._id
+                  ? "Loading..."
+                  : unavailableToMe
+                  ? "Unavailable"
+                  : isRunning && isMyVehicle
+                  ? "Continue Trip"
+                  : isOn && isMyVehicle
+                  ? "Continue"
+                  : "Select Vehicle"}
+              </button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

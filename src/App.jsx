@@ -15,6 +15,7 @@ import DriverDashboard from "./pages/DriverDashboard";
 import DriverGPS from "./pages/DriverGPS";
 import DriverSeats from "./pages/DriverSeats";
 import DriverVehicle from "./pages/DriverVehicle";
+import ManagementDashboard from "./pages/ManagementDashboard";
 
 function App() {
   return (
@@ -33,7 +34,10 @@ function App() {
       <Route path="/driver-gps" element={<DriverGPS />} />
       <Route path="/driver-seats" element={<DriverSeats />} />
       <Route path="/driver-vehicle" element={<DriverVehicle />} />
-
+      <Route
+  path="/management"
+  element={<ManagementDashboard />}
+/>
       <Route path="*" element={<Home />} />
     </Routes>
   );

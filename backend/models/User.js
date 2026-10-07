@@ -23,7 +23,12 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["student", "faculty", "driver"],
+      enum: [
+        "student",
+        "faculty",
+        "driver",
+        "management",
+      ],
       required: true,
     },
   },
@@ -32,15 +37,21 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre("save", async function (next) {
+// Hash password before saving
+userSchema.pre("save", async function () {
   if (!this.isModified("password")) {
-    next();
+    return;
   }
 
   const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+
+  this.password = await bcrypt.hash(
+    this.password,
+    salt
+  );
 });
 
+// Compare password during login
 userSchema.methods.comparePassword = async function (
   enteredPassword
 ) {
@@ -50,6 +61,9 @@ userSchema.methods.comparePassword = async function (
   );
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model(
+  "User",
+  userSchema
+);
 
 export default User;
