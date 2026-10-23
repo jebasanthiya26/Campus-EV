@@ -29,13 +29,6 @@ function StudentSidebar() {
       </NavLink>
 
       <NavLink
-        to="/seats"
-        className="sidebar-link"
-      >
-        💺 Seats
-      </NavLink>
-
-      <NavLink
         to="/profile"
         className="sidebar-link"
       >

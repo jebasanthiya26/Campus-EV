@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -12,8 +13,7 @@ function ManagementDashboard() {
 
   const token = localStorage.getItem("token");
   const userName =
-    localStorage.getItem("userName") ||
-    "Management";
+    localStorage.getItem("userName") || "Management";
 
   const fetchVehicles = async () => {
     try {
@@ -29,10 +29,7 @@ function ManagementDashboard() {
       setVehicles(response.data);
       setError("");
     } catch (err) {
-      console.error(
-        "Failed to load vehicles:",
-        err
-      );
+      console.error("Failed to load vehicles:", err);
 
       setError(
         err.response?.data?.message ||
@@ -51,8 +48,7 @@ function ManagementDashboard() {
       5000
     );
 
-    return () =>
-      clearInterval(interval);
+    return () => clearInterval(interval);
   }, []);
 
   const logout = () => {
@@ -60,17 +56,13 @@ function ManagementDashboard() {
     window.location.href = "/login";
   };
 
-  const runningVehicles =
-    vehicles.filter(
-      (vehicle) =>
-        vehicle.status === "RUNNING"
-    ).length;
+  const runningVehicles = vehicles.filter(
+    (vehicle) => vehicle.status === "RUNNING"
+  ).length;
 
-  const activeVehicles =
-    vehicles.filter(
-      (vehicle) =>
-        vehicle.status === "ON"
-    ).length;
+  const activeVehicles = vehicles.filter(
+    (vehicle) => vehicle.status === "ON"
+  ).length;
 
   const totalSeats = vehicles.reduce(
     (sum, vehicle) =>
@@ -78,166 +70,353 @@ function ManagementDashboard() {
     0
   );
 
-  const availableSeats =
-    vehicles.reduce(
-      (sum, vehicle) =>
-        sum +
-        Math.max(
-          0,
-          (vehicle.totalSeats || 0) -
-            (vehicle.occupiedSeats || 0)
-        ),
-      0
-    );
+  const availableSeats = vehicles.reduce(
+    (sum, vehicle) =>
+      sum +
+      Math.max(
+        0,
+        (vehicle.totalSeats || 0) -
+          (vehicle.occupiedSeats || 0)
+      ),
+    0
+  );
 
   return (
-    <div className="management-page">
+    <div className="management-dashboard">
 
-      <header className="management-header">
-        <div>
-          <h1>Campus EV Management</h1>
-
-          <p>
-            Welcome, {userName}
-          </p>
+      {/* TOP HEADER */}
+      <header className="management-topbar">
+        <div className="management-brand">
+          <span className="management-brand-icon">
+            🚌
+          </span>
+          <span>Campus EV</span>
         </div>
 
-        <button
-          onClick={logout}
-          className="change-vehicle-btn"
-        >
-          Logout
-        </button>
+        <div className="management-user">
+          <span>👤</span>
+          <span>Management</span>
+        </div>
       </header>
 
-      <main className="management-content">
+      <div className="management-layout">
 
-        {error && (
-          <div className="page-card">
-            <p className="login-error">
+        {/* SIDEBAR */}
+        <aside className="management-sidebar">
+
+          <div className="management-menu-title">
+            MANAGEMENT
+          </div>
+
+          <nav>
+
+            <a
+              href="#dashboard"
+              className="management-nav-link active"
+            >
+              🏠
+              <span>Dashboard</span>
+            </a>
+
+            <a
+              href="#vehicles"
+              className="management-nav-link"
+            >
+              🚌
+              <span>Vehicles</span>
+            </a>
+
+            <a
+              href="#monitoring"
+              className="management-nav-link"
+            >
+              📍
+              <span>Monitoring</span>
+            </a>
+
+          </nav>
+
+          <button
+            onClick={logout}
+            className="management-logout"
+          >
+            🚪
+            <span>Logout</span>
+          </button>
+
+        </aside>
+
+        {/* MAIN CONTENT */}
+        <main className="management-main">
+
+          <section
+            className="management-welcome"
+            id="dashboard"
+          >
+            <div>
+              <h1>Management Dashboard</h1>
+
+              <p>
+                Welcome, {userName}. Monitor and manage
+                campus electric vehicles.
+              </p>
+            </div>
+
+            <div className="management-live">
+              <span className="live-dot"></span>
+              Live Monitoring
+            </div>
+          </section>
+
+          {/* ERROR */}
+          {error && (
+            <div className="management-error">
               ⚠️ {error}
-            </p>
-          </div>
-        )}
+            </div>
+          )}
 
-        <div className="management-stats">
+          {/* STATISTICS */}
+          <section className="management-stats">
 
-          <div className="page-card">
-            <h3>Total Vehicles</h3>
-            <strong>
-              {vehicles.length}
-            </strong>
-          </div>
+            <div className="management-stat-card">
+              <div className="stat-icon">
+                🚌
+              </div>
 
-          <div className="page-card">
-            <h3>Running Vehicles</h3>
-            <strong>
-              {runningVehicles}
-            </strong>
-          </div>
+              <div>
+                <p>Total Vehicles</p>
+                <h2>{vehicles.length}</h2>
+              </div>
+            </div>
 
-          <div className="page-card">
-            <h3>Active Vehicles</h3>
-            <strong>
-              {activeVehicles}
-            </strong>
-          </div>
+            <div className="management-stat-card">
+              <div className="stat-icon running">
+                ▶
+              </div>
 
-          <div className="page-card">
-            <h3>Available Seats</h3>
-            <strong>
-              {availableSeats} / {totalSeats}
-            </strong>
-          </div>
+              <div>
+                <p>Running Vehicles</p>
+                <h2>{runningVehicles}</h2>
+              </div>
+            </div>
 
-        </div>
+            <div className="management-stat-card">
+              <div className="stat-icon active">
+                ⚡
+              </div>
 
-        <div className="page-card">
+              <div>
+                <p>Active Vehicles</p>
+                <h2>{activeVehicles}</h2>
+              </div>
+            </div>
 
-          <h2>Vehicle Monitoring</h2>
+            <div className="management-stat-card">
+              <div className="stat-icon seats">
+                💺
+              </div>
 
-          {loading ? (
-            <p>Loading vehicles...</p>
-          ) : vehicles.length === 0 ? (
-            <p>
-              No vehicles found.
-            </p>
-          ) : (
-            <div className="management-vehicle-list">
+              <div>
+                <p>Available Seats</p>
+                <h2>
+                  {availableSeats}
+                  <small> / {totalSeats}</small>
+                </h2>
+              </div>
+            </div>
 
-              {vehicles.map((vehicle) => {
+          </section>
 
-                const available =
-                  Math.max(
+          {/* VEHICLE MONITORING */}
+          <section
+            className="management-monitoring"
+            id="monitoring"
+          >
+
+            <div className="management-section-header">
+              <div>
+                <h2>Vehicle Monitoring</h2>
+                <p>
+                  Real-time status of campus EVs
+                </p>
+              </div>
+
+              <span className="vehicle-count">
+                {vehicles.length} Vehicles
+              </span>
+            </div>
+
+            {loading ? (
+              <div className="management-empty">
+                <div className="management-loader"></div>
+                <p>Loading vehicle data...</p>
+              </div>
+            ) : vehicles.length === 0 ? (
+              <div className="management-empty">
+                <div className="empty-icon">
+                  🚌
+                </div>
+
+                <h3>No vehicles found</h3>
+
+                <p>
+                  There are currently no vehicles
+                  registered in the system.
+                </p>
+              </div>
+            ) : (
+              <div
+                className="management-vehicle-grid"
+                id="vehicles"
+              >
+
+                {vehicles.map((vehicle) => {
+
+                  const available = Math.max(
                     0,
                     (vehicle.totalSeats || 0) -
                       (vehicle.occupiedSeats || 0)
                   );
 
-                return (
-                  <div
-                    className="management-vehicle-card"
-                    key={vehicle._id}
-                  >
+                  const status =
+                    vehicle.status || "OFF";
 
-                    <div>
-                      <h3>
-                        {vehicle.vehicleNumber}
-                      </h3>
+                  const statusClass =
+                    status.toLowerCase();
 
-                      <p>
-                        Route:{" "}
-                        {vehicle.currentRoute ||
-                          "Not assigned"}
-                      </p>
+                  const hasLocation =
+                    vehicle.currentLocation
+                      ?.latitude !== undefined &&
+                    vehicle.currentLocation
+                      ?.longitude !== undefined;
 
-                      <p>
-                        Driver:{" "}
-                        {vehicle.driver?.name ||
-                          "Not assigned"}
-                      </p>
+                  return (
+                    <article
+                      className="management-vehicle-card"
+                      key={vehicle._id}
+                    >
 
-                      <p>
-                        Driver ID:{" "}
-                        {vehicle.driver?.userId ||
-                          "—"}
-                      </p>
-                    </div>
+                      {/* VEHICLE HEADER */}
+                      <div className="vehicle-card-header">
 
-                    <div>
-                      <p>
-                        Status:{" "}
-                        <strong>
-                          {vehicle.status}
-                        </strong>
-                      </p>
+                        <div className="vehicle-title">
 
-                      <p>
-                        Seats:{" "}
-                        {available} available /{" "}
-                        {vehicle.totalSeats}
-                      </p>
+                          <div className="vehicle-icon">
+                            🚌
+                          </div>
 
-                      <p>
-                        Location:{" "}
-                        {vehicle.currentLocation
-                          ?.latitude || 0}
-                        ,{" "}
-                        {vehicle.currentLocation
-                          ?.longitude || 0}
-                      </p>
-                    </div>
+                          <div>
+                            <h3>
+                              {vehicle.vehicleNumber}
+                            </h3>
 
-                  </div>
-                );
-              })}
+                            <span>
+                              Electric Campus Vehicle
+                            </span>
+                          </div>
 
-            </div>
-          )}
+                        </div>
 
-        </div>
+                        <span
+                          className={`vehicle-status ${statusClass}`}
+                        >
+                          <span></span>
+                          {status}
+                        </span>
 
-      </main>
+                      </div>
+
+                      {/* VEHICLE DETAILS */}
+                      <div className="vehicle-details">
+
+                        <div className="vehicle-detail">
+                          <span className="detail-label">
+                            Route
+                          </span>
+
+                          <strong>
+                            {vehicle.currentRoute ||
+                              "Not assigned"}
+                          </strong>
+                        </div>
+
+                        <div className="vehicle-detail">
+                          <span className="detail-label">
+                            Driver
+                          </span>
+
+                          <strong>
+                            {vehicle.driver?.name ||
+                              "Not assigned"}
+                          </strong>
+                        </div>
+
+                        <div className="vehicle-detail">
+                          <span className="detail-label">
+                            Driver ID
+                          </span>
+
+                          <strong>
+                            {vehicle.driver?.userId ||
+                              "—"}
+                          </strong>
+                        </div>
+
+                        <div className="vehicle-detail">
+                          <span className="detail-label">
+                            Seats
+                          </span>
+
+                          <strong>
+                            {available} available /{" "}
+                            {vehicle.totalSeats || 0}
+                          </strong>
+                        </div>
+
+                      </div>
+
+                      {/* GPS */}
+                      <div className="vehicle-location">
+
+                        <div className="location-icon">
+                          📍
+                        </div>
+
+                        <div>
+                          <span>
+                            Current Location
+                          </span>
+
+                          {hasLocation ? (
+                            <strong>
+                              {vehicle.currentLocation.latitude.toFixed(
+                                6
+                              )}
+                              ,{" "}
+                              {vehicle.currentLocation.longitude.toFixed(
+                                6
+                              )}
+                            </strong>
+                          ) : (
+                            <strong className="location-off">
+                              Location unavailable
+                            </strong>
+                          )}
+                        </div>
+
+                      </div>
+
+                    </article>
+                  );
+                })}
+
+              </div>
+            )}
+
+          </section>
+
+        </main>
+      </div>
     </div>
   );
 }
