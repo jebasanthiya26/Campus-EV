@@ -14,7 +14,7 @@ import User from "./models/User.js";
 
 dotenv.config();
 
-connectDB();
+await connectDB();
 
 const app = express();
 const server = http.createServer(app);
@@ -28,8 +28,10 @@ const io = new Server(server, {
 
 
 app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true,
+  // CampusEV uses bearer tokens, not cross-site cookies. Allow localhost and
+  // private-LAN frontend hosts for the two-laptop classroom demo.
+  origin: true,
+  credentials: false,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));

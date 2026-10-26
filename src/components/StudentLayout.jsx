@@ -1,3 +1,4 @@
+
 import StudentSidebar from "./StudentSidebar";
 
 function StudentLayout({ children }) {
@@ -5,20 +6,14 @@ function StudentLayout({ children }) {
     <div className="student-layout">
       <header className="student-header">
         <div className="student-header-title">
-          🚌 Campus EV
-        </div>
-
-        <div>
-          👤 Student
+          <img src="/campus-ev-logo.webp" alt="CampusEV logo" />
+          <span>CampusEV</span>
         </div>
       </header>
 
       <div className="student-body">
         <StudentSidebar />
-
-        <main className="student-content">
-          {children}
-        </main>
+        <main className="student-content">{children}</main>
       </div>
     </div>
   );

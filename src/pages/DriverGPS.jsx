@@ -25,6 +25,8 @@ function DriverGPS() {
     useState(null);
 
   const watchIdRef = useRef(null);
+  const demoIntervalRef = useRef(null);
+  const [demoMode, setDemoMode] = useState(false);
 
   const vehicleId =
     localStorage.getItem("selectedVehicleId");
@@ -216,6 +218,8 @@ function DriverGPS() {
           );
 
           setIsTracking(true);
+          setDemoMode(false);
+          localStorage.setItem("driverGpsActive", "true");
 
           // ---------------------------------------------
           // SEND GPS THROUGH SOCKET.IO
@@ -295,14 +299,54 @@ function DriverGPS() {
       watchId;
 
     setIsTracking(true);
-
     setGpsStatus(
       "Getting phone GPS..."
     );
   };
 
+  // Clearly labelled simulation for a classroom/demo when browser GPS is
+  // unavailable (for example, a second laptop on plain HTTP over a LAN).
+  const startDemoMovement = () => {
+    setError("");
+    if (!vehicleId) {
+      setError("Select a vehicle before starting demo movement.");
+      return;
+    }
+    if (!socket.connected) {
+      setError("Live server connection is not ready. Wait for Connected and try again.");
+      return;
+    }
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+      watchIdRef.current = null;
+    }
+    if (demoIntervalRef.current !== null) window.clearInterval(demoIntervalRef.current);
+    const saved = vehicle?.currentLocation || {};
+    let latitude = Number(saved.latitude);
+    let longitude = Number(saved.longitude);
+    if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90 || latitude === 0) latitude = 12.88348;
+    if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180 || longitude === 0) longitude = 80.059531;
+    const sendPosition = () => {
+      // A small, visible coordinate change each second for demonstration only.
+      latitude += 0.00008;
+      longitude += 0.00006;
+      const updatedAt = new Date();
+      const nextLocation = { latitude, longitude, accuracy: 8 };
+      setLocation(nextLocation);
+      setLastUpdated(updatedAt);
+      setGpsStatus("Demo movement active");
+      setIsTracking(true);
+      setDemoMode(true);
+      localStorage.setItem("driverGpsActive", "true");
+      socket.emit("gpsUpdate", { vehicleId, latitude, longitude, accuracy: 8, locationName: "DEMO SIMULATION", timestamp: updatedAt.toISOString() });
+      setVehicle((old) => old ? { ...old, currentLocation: { ...old.currentLocation, ...nextLocation } } : old);
+    };
+    sendPosition();
+    demoIntervalRef.current = window.setInterval(sendPosition, 2000);
+  };
+
   // =====================================================
-  // STOP PHONE GPS
+  // STOP PHONE GPS / DEMO MOVEMENT
   // =====================================================
 
   const stopGPS = () => {
@@ -316,12 +360,14 @@ function DriverGPS() {
       watchIdRef.current = null;
     }
 
+    if (demoIntervalRef.current !== null) {
+      window.clearInterval(demoIntervalRef.current);
+      demoIntervalRef.current = null;
+    }
     setIsTracking(false);
-
-    setGpsStatus(
-      "GPS is turned off"
-    );
-
+    setDemoMode(false);
+    localStorage.setItem("driverGpsActive", "false");
+    setGpsStatus("GPS is turned off");
     setLocation(null);
   };
 
@@ -331,13 +377,13 @@ function DriverGPS() {
 
   useEffect(() => {
     return () => {
-      if (
-        watchIdRef.current !== null
-      ) {
-        navigator.geolocation.clearWatch(
-          watchIdRef.current
-        );
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
       }
+      if (demoIntervalRef.current !== null) {
+        window.clearInterval(demoIntervalRef.current);
+      }
+      localStorage.setItem("driverGpsActive", "false");
     };
   }, []);
 
@@ -387,7 +433,7 @@ function DriverGPS() {
     socketStatus === "Connected";
 
   const gpsActive =
-    gpsStatus === "GPS Active" &&
+    (gpsStatus === "GPS Active" || gpsStatus === "Demo movement active") &&
     isTracking;
 
   return (
@@ -667,9 +713,11 @@ function DriverGPS() {
                 marginTop: "8px",
               }}
             >
-              {gpsActive
+              {demoMode
+                ? "DEMO SIMULATION: coordinates change every 2 seconds. This is not physical GPS."
+                : gpsActive
                 ? "Your phone is sharing live location with CampusEV."
-                : "Turn on GPS to start sending your vehicle location."}
+                : "Turn on phone GPS or use demo movement to test the student map."}
             </p>
 
           </div>
@@ -689,9 +737,7 @@ function DriverGPS() {
 
             <button
               onClick={startGPS}
-              disabled={
-                isTracking
-              }
+              disabled={isTracking}
               style={{
                 border: "none",
                 borderRadius: "12px",
@@ -720,6 +766,24 @@ function DriverGPS() {
                 : "TURN ON GPS"}
             </button>
 
+
+            <button
+              type="button"
+              onClick={startDemoMovement}
+              disabled={isTracking || !isConnected}
+              style={{
+                border: "1px solid #bfdbfe",
+                borderRadius: "12px",
+                padding: "14px 22px",
+                fontSize: "15px",
+                fontWeight: 800,
+                cursor: isTracking || !isConnected ? "not-allowed" : "pointer",
+                background: isTracking || !isConnected ? "#f1f5f9" : "#eff6ff",
+                color: isTracking || !isConnected ? "#94a3b8" : "#1d4ed8",
+              }}
+            >
+              ▶ Start demo movement
+            </button>
 
             <button
               onClick={stopGPS}

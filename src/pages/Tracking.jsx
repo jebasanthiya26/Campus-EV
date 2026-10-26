@@ -5,7 +5,6 @@ import {
   TileLayer,
   Marker,
   Popup,
-  CircleMarker,
   Polyline,
   useMap,
 } from "react-leaflet";
@@ -750,8 +749,10 @@ function Tracking() {
     );
 
 
-  const stops =
-    selectedRoute?.stops || [];
+  const stops = useMemo(
+    () => selectedRoute?.stops || [],
+    [selectedRoute]
+  );
 
 
   const selectedStopObject =
@@ -803,22 +804,27 @@ function Tracking() {
   // FILTER VEHICLES
   // ===================================================
 
-  const activeVehicles =
-    useMemo(() => {
-      return vehicles.filter(
-        (vehicle) =>
-          vehicle.currentRoute ===
-            selectedLine &&
-          vehicle.status ===
-            "RUNNING" &&
-          hasCoordinates(
-            vehicle.currentLocation
-          )
-      );
-    }, [
-      vehicles,
-      selectedLine,
-    ]);
+ 
+const activeVehicles = useMemo(() => {
+  return vehicles.filter((vehicle) => {
+    const isActive =
+      vehicle.status === "ON" ||
+      vehicle.status === "RUNNING";
+
+    const isOnSelectedRoute =
+      vehicle.currentRoute === selectedLine;
+
+    const hasValidLocation =
+      hasCoordinates(vehicle.currentLocation);
+
+    return (
+      isActive &&
+      isOnSelectedRoute &&
+      hasValidLocation
+    );
+  });
+}, [vehicles, selectedLine]);
+
 
 
   // ===================================================

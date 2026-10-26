@@ -4,23 +4,24 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="home-page">
-      <div className="home-content">
-        <h1>🚌 Campus EV Tracking System</h1>
-
-        <p>
-          Track the live location of campus electric vehicles,
-          check seat availability and estimated arrival time.
+    <main className="home-page home-page-redesign">
+      <div className="home-orb home-orb-one" aria-hidden="true" />
+      <div className="home-orb home-orb-two" aria-hidden="true" />
+      <section className="home-content home-content-redesign">
+        <img className="home-logo" src="/campus-ev-logo.webp" alt="Campus EV Smart Fleet Management logo" />
+        <p className="home-eyebrow">SMART, CONNECTED CAMPUS MOBILITY</p>
+        <h1>Campus EV Tracking System</h1>
+        <p className="home-description">
+          Track campus electric vehicles in real time, check seat availability,
+          and keep students, faculty, drivers and management connected.
         </p>
-
-        <button
-          className="student-login-btn"
-          onClick={() => navigate("/login")}
-        >
-          Student Login
-        </button>
-      </div>
-    </div>
+        <div className="home-actions">
+          <button className="student-login-btn" onClick={() => navigate("/login")}>Login <span aria-hidden="true">→</span></button>
+          <button className="home-register-btn" onClick={() => navigate("/register")}>Create an account</button>
+        </div>
+        <div className="home-role-note"><span>Student & Faculty</span><span>Driver</span><span>Management</span></div>
+      </section>
+    </main>
   );
 }
 
